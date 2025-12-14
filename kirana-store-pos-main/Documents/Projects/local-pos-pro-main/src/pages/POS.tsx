@@ -24,6 +24,8 @@ interface CartItem {
   quantity: number;
   discount: number;
 }
+const WALK_IN = "WALK_IN";
+
 
 const POS = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -127,19 +129,31 @@ const POS = () => {
           <h1 className="text-3xl font-bold tracking-tight">Point of Sale</h1>
           <p className="text-muted-foreground">Quick checkout and billing</p>
         </div>
-        <Select value={selectedCustomerId} onValueChange={setSelectedCustomerId}>
-          <SelectTrigger className="w-[250px]">
-            <SelectValue placeholder="Select Customer (Optional)" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="none">Walk-in Customer</SelectItem>
-            {customers.map((customer) => (
-              <SelectItem key={customer.id} value={customer.id}>
-                {customer.name} - {customer.phone}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Select
+  value={selectedCustomerId ?? WALK_IN}
+  onValueChange={(value) => {
+    if (value === WALK_IN) {
+      setSelectedCustomerId(undefined);
+    } else {
+      setSelectedCustomerId(value);
+    }
+  }}
+>
+  <SelectTrigger className="w-[250px]">
+    <SelectValue placeholder="Select Customer (Optional)" />
+  </SelectTrigger>
+
+  <SelectContent>
+    <SelectItem value={WALK_IN}>Walk-in Customer</SelectItem>
+
+    {customers.map((customer) => (
+      <SelectItem key={customer.id} value={customer.id}>
+        {customer.name} - {customer.phone}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_400px]">

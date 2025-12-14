@@ -13,11 +13,11 @@ export interface SaleItem {
 export interface Sale {
   id: string;
   billNumber: string;
-  customer?: {
-    id: string;
-    name: string;
-    phone?: string;
-  };
+  // customerId?: string;
+  customer:{
+    name:String
+  }
+  customerName?: string;
   items: SaleItem[];
   subtotal: number;
   discountAmount: number;
@@ -37,7 +37,6 @@ export interface SaleItemRequest {
   quantity: number;
   discount?: number;
 }
-
 
 export interface SaleRequest {
   customerId?: string;
@@ -74,7 +73,7 @@ export const saleService = {
       ...(filters?.endDate && { endDate: filters.endDate }),
     };
 
-    const response = await api.get<PageResponse<any>>('/sales', { params });
+    const response = await api.get<PageResponse<Sale>>('/sales', { params });
     return response.data;
   },
 
