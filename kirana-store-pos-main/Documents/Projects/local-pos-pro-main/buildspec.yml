@@ -1,0 +1,39 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      # - echo "Node version:"
+      # - node -v
+      # - npm -v
+      - npm install
+
+  pre_build:
+    commands:
+      # - echo "Repo      : $REPO_NAME"
+      # - echo "Branch    : $BRANCH_NAME"
+      # - echo "Commit ID : $COMMIT_ID"
+
+      # # Clone dynamically
+      # - git clone https://github.com/$REPO_NAME.git
+      # - cd $REPO_NAME
+      # - git checkout $BRANCH_NAME
+      # - git checkout $COMMIT_ID || echo "Using branch HEAD"
+
+      - npm install
+
+  build:
+    commands:
+      - npm run build
+
+  # post_build:
+  #   commands:
+  #     - echo "Deploying React build to S3"
+  #     - aws s3 sync build/ s3://$S3_BUCKET --delete
+
+artifacts:
+  base-directory: dist/local-pos-pro-main
+  files:
+    - '**/*'
